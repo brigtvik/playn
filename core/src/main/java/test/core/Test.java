@@ -57,7 +57,7 @@ public class Test extends SceneGame
 				x += width;
 			}
 
-			//Add TextureSurface layers at the same scales, not visible
+			//Add TextureSurface layers at the same scales
 			x = 0;
 			y += 150;
 			for(float scale = 0.7f; scale < 1.3f; scale += 0.1f)
@@ -65,11 +65,14 @@ public class Test extends SceneGame
 				float width = image.width() * scale;
 				float height = image.height() * scale;
 				TextureSurface surface = new TextureSurface(game.plat.graphics(), game.defaultBatch, width, height);
-//				surface.drawLine(0, 0, width, 0, 1);
-//				surface.drawLine(0, 0, 0, height, 1);
-//				surface.drawLine(0, height, width, height, 1);
-//				surface.drawLine(width, 0, width, height, 1);
-				surface.draw(image.tile(), 0, 0, width, height);
+				Surface s = surface.begin();
+				s.setFillColor(0xFFFFFFFF);
+				s.drawLine(0, 0, width, 0, 1);
+				s.drawLine(0, 0, 0, height, 1);
+				s.drawLine(0, height, width, height, 1);
+				s.drawLine(width, 0, width, height, 1);
+				s.draw(image.tile(), 0, 0, width, height);
+				surface.end();
 				ImageLayer layer = new ImageLayer(surface.texture);
 				layer.setTranslation(x, y);
 				game.rootLayer.add(layer);
