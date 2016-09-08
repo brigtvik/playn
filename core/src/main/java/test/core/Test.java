@@ -1,8 +1,6 @@
 package test.core;
 
-import playn.core.Canvas;
-import playn.core.Image;
-import playn.core.Platform;
+import playn.core.*;
 import playn.scene.CanvasLayer;
 import playn.scene.ImageLayer;
 import playn.scene.SceneGame;
@@ -48,12 +46,31 @@ public class Test extends SceneGame
 
 			//Add Image layers at the same scales, looking good
 			x = 0;
-			y += 200;
+			y += 150;
 			for(float scale = 0.7f; scale < 1.3f; scale += 0.1f)
 			{
 				float width = image.width() * scale;
 				ImageLayer layer = new ImageLayer(image);
 				layer.setScale(scale, scale);
+				layer.setTranslation(x, y);
+				game.rootLayer.add(layer);
+				x += width;
+			}
+
+			//Add TextureSurface layers at the same scales, not visible
+			x = 0;
+			y += 150;
+			for(float scale = 0.7f; scale < 1.3f; scale += 0.1f)
+			{
+				float width = image.width() * scale;
+				float height = image.height() * scale;
+				TextureSurface surface = new TextureSurface(game.plat.graphics(), game.defaultBatch, width, height);
+//				surface.drawLine(0, 0, width, 0, 1);
+//				surface.drawLine(0, 0, 0, height, 1);
+//				surface.drawLine(0, height, width, height, 1);
+//				surface.drawLine(width, 0, width, height, 1);
+				surface.draw(image.tile(), 0, 0, width, height);
+				ImageLayer layer = new ImageLayer(surface.texture);
 				layer.setTranslation(x, y);
 				game.rootLayer.add(layer);
 				x += width;
